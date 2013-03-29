@@ -1,0 +1,21 @@
+li#wp-admin-bar-bs_abep_links .ab-item span {
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+	overflow: hidden;
+	position: relative;
+	top: 5px;
+	left: -5px;
+}
+
+li#wp-admin-bar-bs_abep_links .ab-item span img {
+	width: 18px;
+	height: auto;
+	position: relative;
+	top: 0;
+	right: 0;
+}
+
+#wpadminbar .ab-top-menu>li#wp-admin-bar-bs_abep_links.hover span img {
+	top:-18px;
+}
