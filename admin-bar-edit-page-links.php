@@ -45,6 +45,14 @@ function load_admin_styles() {
 function bs_abep_admin_bar_links() {
 	global $wp_admin_bar;
 	
+	// Add the Parent link.
+	$wp_admin_bar->add_menu( array(
+		'title' => '<span><img src="'. BS_ABEP_PATH . '/images/edit-page-icon.png" /></span>Edit Pages',
+		'href' => false,
+		'id' => 'bs_abep_links',
+		'href' => 'edit.php?post_type=page'
+	));
+		
 	$args = array(
 		'sort_order' => 'ASC',
 		'sort_column' => 'menu_order',
@@ -65,40 +73,25 @@ function bs_abep_admin_bar_links() {
 	$pages = get_pages($args);
 	
 	foreach ($pages as $page) {
-		$label 		= $page->post_title;
+		
+		if ($page->post_parent != 0){
+			$label = '&nbsp;&nbsp;&ndash; '.ucwords($page->post_title);
+			$parent_id = $page->post_parent;
+			if ( ( count( get_post_ancestors($parent_id) ) ) >= 1 ) {
+				$label = '&nbsp;&nbsp;&nbsp;'.$label;
+			}
+		} else {
+			$label = ucwords($page->post_title);
+		}
 		$page_id	= $page->ID;
 		$url		= get_edit_post_link($page_id);
-		$links[$label] = $url;
-	}
- 
-	// Links to add, in the form: 'Label' => 'URL'
-	//$links['BuySellAds'] = 'http://buysellads.com/';
-	
-	/*$links = array(
-		'BuySellAds' => 'http://buysellads.com/',
-		'Twitter Reactions' => $twitter,
-		'Google Analytics' => 'http://www.google.com/analytics/',
-		'Klout' => 'http://klout.com/problogdesign',
-		'Webmaster Tools' => 'https://www.google.com/webmasters/tools/dashboard?hl=en&siteUrl=http://problogdesign.com/'
-	);*/
-	
-	// Add the Parent link.
-	$wp_admin_bar->add_menu( array(
-		'title' => '<span><img src="'. BS_ABEP_PATH . '/images/edit-page-icon.png" /></span>Edit Pages',
-		'href' => false,
-		'id' => 'bs_abep_links',
-		'href' => 'edit.php?post_type=page'
-	));
- 
-	/**
-	 * Add the submenu links.
-	 */
-	foreach ($links as $label => $url) {
+		
 		$wp_admin_bar->add_menu( array(
-			'title' => $label,
-			'href' => $url,
-			'parent' => 'bs_abep_links'
-		));
+					'title' => $label,
+					'href' => $url,
+					'id' => $page_id,
+					'parent' => 'bs_abep_links'
+				));
 	}
 }
 

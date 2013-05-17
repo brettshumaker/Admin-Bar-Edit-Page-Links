@@ -19,3 +19,8 @@ li#wp-admin-bar-bs_abep_links .ab-item span img {
 #wpadminbar .ab-top-menu>li#wp-admin-bar-bs_abep_links.hover span img {
 	top:-18px;
 }
+
+#wp-admin-bar-bs_abep_links .ab-sub-wrapper {
+	max-height: 600px;
+	overflow-x: scroll;
+}
