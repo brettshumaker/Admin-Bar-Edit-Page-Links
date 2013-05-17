@@ -45,12 +45,14 @@ function load_admin_styles() {
 function bs_abep_admin_bar_links() {
 	global $wp_admin_bar;
 	
+	$admin_url = admin_url();
+	
 	// Add the Parent link.
 	$wp_admin_bar->add_menu( array(
 		'title' => '<span><img src="'. BS_ABEP_PATH . '/images/edit-page-icon.png" /></span>Edit Pages',
 		'href' => false,
 		'id' => 'bs_abep_links',
-		'href' => 'edit.php?post_type=page'
+		'href' => $admin_url.'edit.php?post_type=page'
 	));
 		
 	$args = array(
