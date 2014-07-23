@@ -18,7 +18,7 @@ Adds edit page links to the WordPress admin bar so you can quickly jump between 
 == Installation ==
 
 1. Upload the `admin-bar-edit-page-links` folder to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
+2. Activate the plugin through the 'Plugins' menu in WordPress 
 3. That's it!
 
 == Frequently Asked Questions ==
