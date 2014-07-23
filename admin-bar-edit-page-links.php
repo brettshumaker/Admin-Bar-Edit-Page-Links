@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Admin Bar Add Edit Page Links
+Plugin Name: Admin Bar Edit Page Links
 Plugin URI: http://www.brettshumaker.com
-Description: Adds edit page links to the WordPress admin bar so you can quickly jump between editing pages.
-Version: 0.1
+Description: Adds edit page links to the WordPress admin bar so you can quickly jump between editing pages. Very helpful if you're doing a lot of content editing.
+Version: 1.03
 Author: Brett Shumaker
 Author URI: http://www.brettshumaker.com/
 License: GPL2
@@ -21,7 +21,6 @@ function bs_abep_admin_bar_init() {
  
 	// Good to go, lets do this!
 	add_action('admin_bar_menu', 'bs_abep_admin_bar_links', 500);
-	add_action('admin_bar_menu', 'bs_abep_remove_default_links', 500);
 	
 	// Load our admin style
 	add_action('admin_enqueue_scripts','load_admin_styles');
@@ -45,13 +44,22 @@ function load_admin_styles() {
 function bs_abep_admin_bar_links() {
 	global $wp_admin_bar;
 	
+	$wp_ver = get_bloginfo('version');
+	
+	if (floatval($wp_ver) >= 3.8) {
+		$title = '<span class="ab-icon"></span><span class="ab-label">Edit Pages</span>';
+	} else {
+		$title = '<span class="ab-icon"><img src="'. BS_ABEP_PATH . '/images/edit-page-icon.png" /></span><span class="ab-label">Edit Pages</span>';
+		$img = '_no_dashicon';
+	}
+	
 	$admin_url = admin_url();
 	
 	// Add the Parent link.
 	$wp_admin_bar->add_menu( array(
-		'title' => '<span><img src="'. BS_ABEP_PATH . '/images/edit-page-icon.png" /></span>Edit Pages',
+		'title' => $title,
 		'href' => false,
-		'id' => 'bs_abep_links',
+		'id' => 'bs_abep_links'.$img,
 		'href' => $admin_url.'edit.php?post_type=page'
 	));
 		
@@ -92,27 +100,8 @@ function bs_abep_admin_bar_links() {
 					'title' => $label,
 					'href' => $url,
 					'id' => $page_id,
-					'parent' => 'bs_abep_links'
+					'parent' => 'bs_abep_links'.$img
 				));
-	}
-}
-
-/**
- * Remove default admin links.
- */
-function bs_abep_remove_default_links() {
-	global $wp_admin_bar;
- 
-	/* Array of links to remove. Choose from:
-	'my-account-with-avatar', 'my-account', 'my-blogs', 'edit', 'new-content', 'comments', 'appearance', 'updates', 'get-shortlink'
-	 */
-	$remove = array('comments');
- 
-	if(empty($remove) )
-		return;
- 
-	foreach($remove as $item) {
-		$wp_admin_bar->remove_menu($item);	
 	}
 }
 ?>
