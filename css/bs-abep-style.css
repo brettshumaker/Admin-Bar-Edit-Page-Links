@@ -1,0 +1,54 @@
+/*
+li#wp-admin-bar-bs_abep_links_no_dashicon .ab-item span.ab-icon {
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+	overflow: hidden;
+	position: relative;
+	top: -1px;
+	left: -5px;
+}
+
+li#wp-admin-bar-bs_abep_links_no_dashicon .ab-item span.ab-icon img {
+	width: 18px;
+	height: auto;
+	position: relative;
+	top: 0;
+	right: 0;
+}
+
+#wpadminbar .ab-top-menu>li#wp-admin-bar-bs_abep_links_no_dashicon.hover span.ab-icon img {
+	top:-18px;
+}
+
+#wp-admin-bar-bs_abep_links .ab-sub-wrapper {
+	max-height: 600px;
+	overflow-x: scroll;
+}
+*/
+#wp-admin-bar-bs_abep_links .ab-item>.ab-icon:before {
+	content: "\f327"; /* Use the pencil dashicon for 3.8 */
+	top:3px;
+}
+
+@media screen and (max-width: 782px) {
+	#wpadminbar li#wp-admin-bar-bs_abep_links {
+		display: block;
+	}
+	
+	#wpadminbar li#wp-admin-bar-bs_abep_links .ab-icon:before {
+		top: 0;
+		line-height: 48px;
+		height: 46px!important;
+		text-align: center;
+		width: 50px;
+		display: block;
+		font-size: 31px;
+	}
+}
+
+@media screen and (max-width: 425px) {
+	#wpadminbar li#wp-admin-bar-bs_abep_links {
+		display: none;
+	}
+}
