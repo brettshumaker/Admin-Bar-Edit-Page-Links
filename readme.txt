@@ -3,8 +3,8 @@ Contributors: brettshumaker
 Donate link: http://brettshumaker.com/
 Tags: edit page, page links, admin bar, page
 Requires at least: 3.0
-Tested up to: 3.9
-Stable tag: 1.03
+Tested up to: 4.1.1
+Stable tag: 1.04
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,10 @@ Adds edit page links to the WordPress admin bar so you can quickly jump between 
 1. Edit Pages admin menu
 
 == Changelog ==
+
+= 1.04 =
+* Fixed: Undefined variable PHP Notice
+* Added: Translation support
 
 = 1.03 =
 * Fixed: Pre 3.8 users would not get page list

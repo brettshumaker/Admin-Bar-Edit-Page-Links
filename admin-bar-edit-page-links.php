@@ -3,13 +3,18 @@
 Plugin Name: Admin Bar Edit Page Links
 Plugin URI: http://www.brettshumaker.com
 Description: Adds edit page links to the WordPress admin bar so you can quickly jump between editing pages. Very helpful if you're doing a lot of content editing.
-Version: 1.03
+Version: 1.04
 Author: Brett Shumaker
 Author URI: http://www.brettshumaker.com/
 License: GPL2
 */
 
 define( 'BS_ABEP_PATH', plugin_dir_url(__FILE__) );
+
+/**
+ * Load any translations
+ */
+load_plugin_textdomain( 'bs_abep', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 
 /**
  * Checks if we should add links to the bar.
@@ -47,9 +52,10 @@ function bs_abep_admin_bar_links() {
 	$wp_ver = get_bloginfo('version');
 	
 	if (floatval($wp_ver) >= 3.8) {
-		$title = '<span class="ab-icon"></span><span class="ab-label">Edit Pages</span>';
+		$title = '<span class="ab-icon"></span><span class="ab-label">' . __('Edit Pages', 'bs_abep') . '</span>';
+		$img = '';
 	} else {
-		$title = '<span class="ab-icon"><img src="'. BS_ABEP_PATH . '/images/edit-page-icon.png" /></span><span class="ab-label">Edit Pages</span>';
+		$title = '<span class="ab-icon"><img src="'. BS_ABEP_PATH . '/images/edit-page-icon.png" /></span><span class="ab-label">' . __('Edit Pages', 'bs_abep') . '</span>';
 		$img = '_no_dashicon';
 	}
 	
