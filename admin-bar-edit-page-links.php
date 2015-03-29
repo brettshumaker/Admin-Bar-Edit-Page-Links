@@ -88,7 +88,8 @@ function bs_abep_admin_bar_links() {
 			'order' => 'ASC',
 			'orderby' => 'menu_order',
 			'post_type' => $post_type,
-			'post_status' => 'publish'
+			'post_status' => 'publish',
+			'posts_per_page' => -1,
 		); 
 		$bs_abep_query = get_posts( $args );
 		
