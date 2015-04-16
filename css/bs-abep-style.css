@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
 li#wp-admin-bar-bs_abep_links_no_dashicon .ab-item span.ab-icon {
 	width: 18px;
@@ -21,6 +22,14 @@ li#wp-admin-bar-bs_abep_links_no_dashicon .ab-item span.ab-icon img {
 	top:-18px;
 }
 */
+=======
+ul#wp-admin-bar-bs_abep_links-default ul#wp-admin-bar-page-default {
+	max-height: 600px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+>>>>>>> origin/development
 #wp-admin-bar-bs_abep_links .ab-item>.ab-icon:before {
 	content: "\f327"; /* Use the pencil dashicon for 3.8 */
 	top:3px;

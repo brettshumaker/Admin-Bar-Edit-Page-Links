@@ -91,7 +91,7 @@ function bs_abep_admin_bar_links() {
 	
 	foreach ($options as $post_type => $nice_name){
 		$args['post_type'] = $post_type;
-		
+
 		$bs_abep_query = get_posts( $args );
 		
 		if ( !empty($bs_abep_query) ) :
