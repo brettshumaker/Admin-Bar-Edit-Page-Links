@@ -77,19 +77,21 @@ function bs_abep_admin_bar_links() {
 		'title' => $title,
 		'href' => false,
 		'id' => 'bs_abep_links'.$img,
-		//'href' => $admin_url.'edit.php?post_type=page'
 	));
 	
+	$args = array(
+		'order' => 'ASC',
+		'orderby' => 'menu_order',
+		'post_status' => 'publish'
+	);
 	
+	if (has_filter('bs_abep_query_args')) {
+		$args = apply_filters('bs_abep_query_args', $args);
+	}
 	
 	foreach ($options as $post_type => $nice_name){
-		//echo '<a href="'.$admin_url.'edit.php?post_type='.$post_type.'">'.$nice_name.'</a>';
-		$args = array(
-			'order' => 'ASC',
-			'orderby' => 'menu_order',
-			'post_type' => $post_type,
-			'post_status' => 'publish'
-		); 
+		$args['post_type'] = $post_type;
+		
 		$bs_abep_query = get_posts( $args );
 		
 		if ( !empty($bs_abep_query) ) :
@@ -124,14 +126,19 @@ function bs_abep_admin_bar_links() {
 			}
 		endif;
 	}
-	//echo '<pre>' . print_r($post, true) . '</pre>';
 }
 
 function bs_abep_activation_callback() {
-	$options = get_option('bs_abep_settings');
+	$options = get_option('bs_abep_settings', array());
 	
-	if ( !isset($options) ) {
-		add_option('bs_abep_settings', array());
+	$default = array(
+		'types' => array(
+			'page' => 'Pages',
+		),
+	);
+	
+	if ( empty($options) ) {
+		update_option('bs_abep_settings', $default );
 	}
 }
 ?>

@@ -20,15 +20,16 @@ li#wp-admin-bar-bs_abep_links_no_dashicon .ab-item span.ab-icon img {
 #wpadminbar .ab-top-menu>li#wp-admin-bar-bs_abep_links_no_dashicon.hover span.ab-icon img {
 	top:-18px;
 }
-
-#wp-admin-bar-bs_abep_links .ab-sub-wrapper {
-	max-height: 600px;
-	overflow-x: scroll;
-}
 */
 #wp-admin-bar-bs_abep_links .ab-item>.ab-icon:before {
 	content: "\f327"; /* Use the pencil dashicon for 3.8 */
 	top:3px;
+}
+
+li#wp-admin-bar-bs_abep_links .ab-sub-wrapper .ab-sub-wrapper > ul {
+  max-height: 600px;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 @media screen and (max-width: 782px) {
