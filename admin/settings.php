@@ -4,7 +4,7 @@ add_action( 'admin_init', 'bs_abep_settings_init' );
 
 
 function bs_abep_add_admin_menu(  ) { 
-	add_options_page( 'Admin Bar Edit Page Links', 'Admin Bar Edit Page Links', 'manage_options', 'admin_bar_edit_page_links', 'bs_abep_options_page' );
+	add_options_page( 'Admin Bar Edit Content Links', 'Admin Bar Edit Content Links', 'manage_options', 'admin_bar_edit_page_links', 'bs_abep_options_page' );
 }
 
 
@@ -60,7 +60,7 @@ function bs_abep_options_page(  ) {
 	?>
 	<form action='options.php' method='post'>
 		
-		<h2>Admin Bar Edit Page Links</h2>
+		<h2>Admin Bar Edit Content Links</h2>
 		
 		<?php
 		settings_fields( 'bs_abep_settings_page' );

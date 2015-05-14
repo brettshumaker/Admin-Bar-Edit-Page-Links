@@ -1,9 +1,12 @@
+li#wp-admin-bar-bs_abep_links {
+  cursor: default;
+}
+
 ul#wp-admin-bar-bs_abep_links-default ul#wp-admin-bar-page-default {
 	max-height: 600px;
 	overflow-x: hidden;
 	overflow-y: scroll;
 }
-
 
 #wp-admin-bar-bs_abep_links .ab-item>.ab-icon:before {
 	content: "\f327"; /* Use the pencil dashicon for 3.8 */
