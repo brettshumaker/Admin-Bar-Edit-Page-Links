@@ -3,7 +3,7 @@
 Plugin Name: Admin Bar Edit Page Links
 Plugin URI: http://www.brettshumaker.com
 Description: Adds edit page links to the WordPress admin bar so you can quickly jump between editing pages. Very helpful if you're doing a lot of content editing.
-Version: 1.04
+Version: 1.1.0
 Author: Brett Shumaker
 Author URI: http://www.brettshumaker.com/
 License: GPL2
