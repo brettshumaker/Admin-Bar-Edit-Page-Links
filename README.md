@@ -14,4 +14,4 @@ Usage
 
 Filter
 =======
-`bs_abep_query_args`: allows you to edit the query args for the `get_posts()` call that lists the post types.
+`bs_abep_query_args`: allows you to edit the query args for the `get_posts()` call that lists the post types. This happens after `$args['post_type']` is set so you can have custom args per post type.
