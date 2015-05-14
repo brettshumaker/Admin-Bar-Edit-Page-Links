@@ -1,33 +1,22 @@
-li#wp-admin-bar-bs_abep_links_no_dashicon .ab-item span.ab-icon {
-	width: 18px;
-	height: 18px;
-	display: inline-block;
-	overflow: hidden;
-	position: relative;
-	top: -1px;
-	left: -5px;
+li#wp-admin-bar-bs_abep_links {
+  cursor: default;
 }
 
-li#wp-admin-bar-bs_abep_links_no_dashicon .ab-item span.ab-icon img {
-	width: 18px;
-	height: auto;
-	position: relative;
-	top: 0;
-	right: 0;
-}
-
-#wpadminbar .ab-top-menu>li#wp-admin-bar-bs_abep_links_no_dashicon.hover span.ab-icon img {
-	top:-18px;
-}
-
-#wp-admin-bar-bs_abep_links .ab-sub-wrapper {
+ul#wp-admin-bar-bs_abep_links-default ul#wp-admin-bar-page-default {
 	max-height: 600px;
-	overflow-x: scroll;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 
 #wp-admin-bar-bs_abep_links .ab-item>.ab-icon:before {
 	content: "\f327"; /* Use the pencil dashicon for 3.8 */
 	top:3px;
+}
+
+li#wp-admin-bar-bs_abep_links .ab-sub-wrapper .ab-sub-wrapper > ul {
+  max-height: 600px;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 @media screen and (max-width: 782px) {

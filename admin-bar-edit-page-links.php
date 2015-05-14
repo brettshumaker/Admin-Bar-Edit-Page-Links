@@ -1,20 +1,29 @@
 <?php
 /*
-Plugin Name: Admin Bar Edit Page Links
+Plugin Name: Admin Bar Edit Content Links
 Plugin URI: http://www.brettshumaker.com
-Description: Adds edit page links to the WordPress admin bar so you can quickly jump between editing pages. Very helpful if you're doing a lot of content editing.
-Version: 1.04
+Description: Adds an Edit Content link to the WordPress admin bar so you can quickly jump between editing pages, posts, and other custom post types. Very helpful if you're doing a lot of content editing.
+Version: 1.1.0
 Author: Brett Shumaker
 Author URI: http://www.brettshumaker.com/
 License: GPL2
 */
 
-define( 'BS_ABEP_PATH', plugin_dir_url(__FILE__) );
+define( 'BS_ABEP_URL', plugin_dir_url(__FILE__) );
+define( 'BS_ABEP_PATH', plugin_dir_path(__FILE__) );
+
+register_activation_hook( __FILE__, 'bs_abep_activation_callback' );
 
 /**
  * Load any translations
  */
 load_plugin_textdomain( 'bs_abep', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+
+
+/**
+ * Load options page
+ */
+include_once( BS_ABEP_PATH . '/admin/settings.php' );
 
 /**
  * Checks if we should add links to the bar.
@@ -39,7 +48,7 @@ add_action('admin_bar_init', 'bs_abep_admin_bar_init');
  * Add Admin Style
  */
 function load_admin_styles() {
-	wp_register_style( 'bs-abep-style', BS_ABEP_PATH . '_css/bs-abep-style.css' );
+	wp_register_style( 'bs-abep-style', BS_ABEP_URL . 'css/bs-abep-style.css' );
 	wp_enqueue_style( 'bs-abep-style' );
 }
 
@@ -48,14 +57,16 @@ function load_admin_styles() {
  */
 function bs_abep_admin_bar_links() {
 	global $wp_admin_bar;
+	$options = get_option('bs_abep_settings');
+	$options = $options['types'];
 	
 	$wp_ver = get_bloginfo('version');
 	
 	if (floatval($wp_ver) >= 3.8) {
-		$title = '<span class="ab-icon"></span><span class="ab-label">' . __('Edit Pages', 'bs_abep') . '</span>';
+		$title = '<span class="ab-icon"></span><span class="ab-label">' . __('Edit Content', 'bs_abep') . '</span>';
 		$img = '';
 	} else {
-		$title = '<span class="ab-icon"><img src="'. BS_ABEP_PATH . '/images/edit-page-icon.png" /></span><span class="ab-label">' . __('Edit Pages', 'bs_abep') . '</span>';
+		$title = '<span class="ab-icon"><img src="'. BS_ABEP_URL . '/images/edit-page-icon.png" /></span><span class="ab-label">' . __('Edit Content', 'bs_abep') . '</span>';
 		$img = '_no_dashicon';
 	}
 	
@@ -66,48 +77,68 @@ function bs_abep_admin_bar_links() {
 		'title' => $title,
 		'href' => false,
 		'id' => 'bs_abep_links'.$img,
-		'href' => $admin_url.'edit.php?post_type=page'
 	));
-		
-	$args = array(
-		'sort_order' => 'ASC',
-		'sort_column' => 'menu_order',
-		'hierarchical' => 1,
-		'exclude' => '',
-		'include' => '',
-		'meta_key' => '',
-		'meta_value' => '',
-		'authors' => '',
-		'child_of' => 0,
-		'parent' => -1,
-		'exclude_tree' => '',
-		'number' => '',
-		'offset' => 0,
-		'post_type' => 'page',
-		'post_status' => 'publish'
-	); 
-	$pages = get_pages($args);
 	
-	foreach ($pages as $page) {
+	$args = array(
+		'order' => 'ASC',
+		'orderby' => 'menu_order',
+		'post_status' => 'publish'
+	);
+	
+	if (has_filter('bs_abep_query_args')) {
+		$args = apply_filters('bs_abep_query_args', $args);
+	}
+	
+	foreach ($options as $post_type => $nice_name){
+		$args['post_type'] = $post_type;
+
+		$bs_abep_query = get_posts( $args );
 		
-		if ($page->post_parent != 0){
-			$label = '&nbsp;&nbsp;&ndash; '.ucwords($page->post_title);
-			$parent_id = $page->post_parent;
-			if ( ( count( get_post_ancestors($parent_id) ) ) >= 1 ) {
-				$label = '&nbsp;&nbsp;&nbsp;'.$label;
+		if ( !empty($bs_abep_query) ) :
+			
+			// We have some posts, let's add a parent menu
+			$wp_admin_bar->add_menu( array(
+							'title' => $nice_name,
+							'href' => $admin_url . 'edit.php?post_type=' . $post_type,
+							'id' => $post_type,
+							'parent' => 'bs_abep_links'.$img
+						));
+			
+			foreach ($bs_abep_query as $post) {
+				if ($post->post_parent != 0){
+					$label = '&nbsp;&nbsp;&ndash; '.ucwords($post->post_title);
+					$parent_id = $post->post_parent;
+					if ( ( count( get_post_ancestors($parent_id) ) ) >= 1 ) {
+						$label = '&nbsp;&nbsp;&nbsp;'.$label;
+					}
+				} else {
+					$label = ucwords($post->post_title);
+				}
+				
+				$url = get_edit_post_link($post->ID);
+				
+				$wp_admin_bar->add_menu( array(
+							'title' => $label,
+							'href' => $url,
+							'id' => $post->ID,
+							'parent' => $post_type
+						));
 			}
-		} else {
-			$label = ucwords($page->post_title);
-		}
-		$page_id	= $page->ID;
-		$url		= get_edit_post_link($page_id);
-		
-		$wp_admin_bar->add_menu( array(
-					'title' => $label,
-					'href' => $url,
-					'id' => $page_id,
-					'parent' => 'bs_abep_links'.$img
-				));
+		endif;
+	}
+}
+
+function bs_abep_activation_callback() {
+	$options = get_option('bs_abep_settings', array());
+	
+	$default = array(
+		'types' => array(
+			'page' => 'Pages',
+		),
+	);
+	
+	if ( empty($options) ) {
+		update_option('bs_abep_settings', $default );
 	}
 }
 ?>
