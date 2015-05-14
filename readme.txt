@@ -4,7 +4,7 @@ Donate link: http://brettshumaker.com/
 Tags: edit page, page links, admin bar, page
 Requires at least: 3.0
 Tested up to: 4.2.2
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,10 @@ Click on 'Admin Bar Edit Content Links' in the 'Settings' menu on the left. Then
 2. The menu in action
 
 == Changelog ==
+
+= 1.1.1 =
+* Moved location of the filter 'bs_abep_query_args' - now you can check for the post type while filtering
+* Added in 'posts_per_page' to the query args - inadvertently left that out in 1.1.0
 
 = 1.1.0 =
 * Added ability to add multiple post types to the menu

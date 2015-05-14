@@ -3,7 +3,7 @@
 Plugin Name: Admin Bar Edit Content Links
 Plugin URI: http://www.brettshumaker.com
 Description: Adds an Edit Content link to the WordPress admin bar so you can quickly jump between editing pages, posts, and other custom post types. Very helpful if you're doing a lot of content editing.
-Version: 1.1.0
+Version: 1.1.1
 Author: Brett Shumaker
 Author URI: http://www.brettshumaker.com/
 License: GPL2
@@ -82,16 +82,21 @@ function bs_abep_admin_bar_links() {
 	$args = array(
 		'order' => 'ASC',
 		'orderby' => 'menu_order',
-		'post_status' => 'publish'
+		'post_status' => 'publish',
+		'posts_per_page' => -1,
 	);
-	
-	if (has_filter('bs_abep_query_args')) {
-		$args = apply_filters('bs_abep_query_args', $args);
-	}
 	
 	foreach ($options as $post_type => $nice_name){
 		$args['post_type'] = $post_type;
-
+		
+		// Filter the args now
+		if (has_filter('bs_abep_query_args')) {
+			$args = apply_filters('bs_abep_query_args', $args);
+			
+			// Let's reset the post type in case the user inadvertently changed it - there's really no reaon to change it.
+			$args['post_type'] = $post_type;
+		}
+		
 		$bs_abep_query = get_posts( $args );
 		
 		if ( !empty($bs_abep_query) ) :
