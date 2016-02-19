@@ -3,7 +3,7 @@
 Plugin Name: Admin Bar Edit Content Links
 Plugin URI: http://www.brettshumaker.com
 Description: Adds an Edit Content link to the WordPress admin bar so you can quickly jump between editing pages, posts, and other custom post types. Very helpful if you're doing a lot of content editing.
-Version: 1.4.0
+Version: 1.4.1
 Author: Brett Shumaker
 Author URI: http://www.brettshumaker.com/
 License: GPL2
@@ -97,9 +97,9 @@ function bs_abep_admin_bar_links() {
 			$args['post_type'] = $post_type;
 		}
 		
-		$bs_abep_query = get_posts( $args );
+		$bs_abep_query = new WP_Query( $args );
 		
-		if ( !empty($bs_abep_query) ) :
+		if ( $bs_abep_query->have_posts() ) :
 			
 			// We have some posts, let's add a parent menu
 			$wp_admin_bar->add_menu( array(
@@ -109,11 +109,19 @@ function bs_abep_admin_bar_links() {
 							'parent' => 'bs_abep_links'.$img
 						));
 			
-			foreach ($bs_abep_query as $post) {
-				if ($post->post_parent != 0){
+			if ( is_post_type_hierarchical($post_type) && 'menu_order' == $args['orderby'] ) {
+				// Sort them into a hierarchical list here
+				$bs_abep_query->posts = bs_abep_sort_hierarchical_posts( $bs_abep_query->posts );
+			}
+			
+			foreach ($bs_abep_query->posts as $post) {
+				
+				if ( 0 !== $post->post_parent && 'menu_order' == $args['orderby'] ) {
 					$label = '&nbsp;&nbsp;&ndash; '.ucwords($post->post_title);
 					$parent_id = $post->post_parent;
-					if ( ( count( get_post_ancestors($parent_id) ) ) >= 1 ) {
+					
+					// Loop through to indent the post type the appropriate number of times
+					for ( $i = 0; $i < count( get_post_ancestors($parent_id) ); $i++ ) {
 						$label = '&nbsp;&nbsp;&nbsp;'.$label;
 					}
 				} else {
@@ -130,6 +138,37 @@ function bs_abep_admin_bar_links() {
 						));
 			}
 		endif;
+		
+	}
+}
+
+function bs_abep_sort_hierarchical_posts( $posts ) {
+	$final_post_array = array();
+	
+	foreach ( $posts as $index => $post ) {
+		if ( 0 == $post->post_parent ) {
+			$post_id_array[0][$index] = $post->ID;
+		} else {
+			$post_id_array[$post->post_parent][$index] = $post->ID;
+		}
+	}
+	
+	ksort($post_id_array);
+	
+	foreach ( $post_id_array[0] as $index => $post_id ) {
+		$final_post_array[] = $posts[$index];
+		bs_abep_check_children($post_id, $post_id_array, $final_post_array, $posts);
+	}
+	
+	return $final_post_array;
+}
+
+function bs_abep_check_children( $post_id, $post_id_array, &$final_post_array, $posts ) {
+	if ( isset( $post_id_array[$post_id] ) ) {
+		foreach( $post_id_array[$post_id] as $index => $child_id ) {
+			$final_post_array[] = $posts[$index];
+			bs_abep_check_children($child_id, $post_id_array, $final_post_array, $posts);
+		}
 	}
 }
 
@@ -146,4 +185,3 @@ function bs_abep_activation_callback() {
 		update_option('bs_abep_settings', $default );
 	}
 }
-?>

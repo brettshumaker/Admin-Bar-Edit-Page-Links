@@ -43,6 +43,8 @@ function bs_abep_checkbox_render( $post_type ) {
 		$checked = checked( $options[$post_type['name']], $post_type['nice_name'], false );
 	} elseif ( $post_type['name'] == 'page' ) {
 		$checked = 'checked';
+	} else {
+		$checked = '';
 	}
 	
 	?>
@@ -94,5 +96,3 @@ function bs_abep_get_post_types( $excluded_post_types = array('Media') ) {
 	
 	return $return;
 }
-
-?>

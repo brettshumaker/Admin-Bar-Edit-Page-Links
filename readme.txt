@@ -3,8 +3,8 @@ Contributors: brettshumaker
 Donate link: http://brettshumaker.com/
 Tags: edit page, page links, admin bar, page
 Requires at least: 3.0
-Tested up to: 4.2.2
-Stable tag: 1.4.0
+Tested up to: 4.4.2
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,11 @@ Click on 'Admin Bar Edit Content Links' in the 'Settings' menu on the left. Then
 2. The menu in action
 
 == Changelog ==
+
+= 1.4.1 =
+* Moved to using `WP_Query` instead of `get_posts`.
+* Fixed bug with default ordering. Children were not always shown below their parents and some grandchildren or great grandchildren, etc. were missing.
+* Note: Hierarchical sorting goes away if you change the `orderby` parameter away from `menu_order`
 
 = 1.4.0 =
 * Changed versioning system at 1.1.0 and plugin update was not triggered. This is just a version bump to trigger an update.
