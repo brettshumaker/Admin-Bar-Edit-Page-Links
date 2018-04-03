@@ -1,5 +1,5 @@
 li#wp-admin-bar-bs_abep_links {
-  cursor: default;
+	cursor: default;
 }
 
 ul#wp-admin-bar-bs_abep_links-default ul#wp-admin-bar-page-default {
@@ -14,16 +14,16 @@ ul#wp-admin-bar-bs_abep_links-default ul#wp-admin-bar-page-default {
 }
 
 li#wp-admin-bar-bs_abep_links .ab-sub-wrapper .ab-sub-wrapper > ul {
-  max-height: 600px;
-  overflow-x: hidden;
-  overflow-y: scroll;
+	max-height: 600px;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 
 @media screen and (max-width: 782px) {
 	#wpadminbar li#wp-admin-bar-bs_abep_links {
 		display: block;
 	}
-	
+
 	#wpadminbar li#wp-admin-bar-bs_abep_links .ab-icon:before {
 		top: 0;
 		line-height: 48px;

@@ -3,8 +3,8 @@ Contributors: brettshumaker
 Donate link: http://brettshumaker.com/
 Tags: edit page, page links, admin bar, page
 Requires at least: 3.0
-Tested up to: 4.5
-Stable tag: 1.4.1
+Tested up to: 4.9.4
+Stable tag: 1.4.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,19 @@ Click on 'Admin Bar Edit Content Links' in the 'Settings' menu on the left. Then
 2. The menu in action
 
 == Changelog ==
+
+= 1.4.2.1 =
+* Made the 'abepl_exclude_post_types' filter more reliable - will now remove the checkbox from the settings screen as well as prevent a previously checked, valid post type from displaying in the admin bar menu.
+* Made the 'bs_abep_query_args' filter more reliable - now resets to defaults each time through the list of post types.
+* Changed filter from 'abepl-exclude-post-types' to 'abepl_exclude_post_types'.
+* Cleaned up some code formatting.
+
+= 1.4.2 =
+* I was pushing updates way too early in the morning. I accidentally reverted the plugin to a VERY old version.
+* I'm sorry. Don't hate me. :)
+
+= 1.4.1.1 =
+* Left a little debugging line in v 1.4.1 - It's gone now. :)
 
 = 1.4.1 =
 * Moved to using `WP_Query` instead of `get_posts`.
